@@ -42,12 +42,19 @@ jonny.makeMove(0, 0);
 
 console.log(game);
 
-let activePlayer = game.players[0];
-console.log(activePlayer);
+function GameController() {
+  let activePlayer = game.players[0];
 
-const switchPlayer = () => {
-  activePlayer =
-    activePlayer === game.players[0] ? game.players[1] : game.players[0];
-};
+  const switchPlayer = () => {
+    activePlayer =
+      activePlayer === game.players[0] ? game.players[1] : game.players[0];
 
-console.log(activePlayer);
+    console.log(activePlayer);
+  };
+
+  const playRound = () => {
+    // funtion to play round
+  };
+
+  return { switchPlayer, playRound };
+}
