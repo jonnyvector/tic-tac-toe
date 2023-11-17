@@ -106,10 +106,16 @@ function GameController() {
 
 const controlGame = GameController();
 
-function handleClick(element) {
-  // Get value of row and column
-  var rowNumber = element.getAttribute("data-row");
-  var colNumber = element.getAttribute("data-col");
+for (const cell of gameboard) {
+  cell.addEventListener("click", function (e) {
+    if (cell.textContent === "") {
+      var rowNumber = cell.getAttribute("data-row");
+      var colNumber = cell.getAttribute("data-col");
 
-  controlGame.playRound(rowNumber, colNumber);
+      controlGame.playRound(rowNumber, colNumber);
+
+      cell.textContent =
+        controlGame.getActivePlayer().name === "Player One" ? "O" : "X";
+    }
+  });
 }
