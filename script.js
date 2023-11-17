@@ -1,44 +1,51 @@
-function createPlayer(name) {
+function createPlayer(
+  playerOneName = "Player One",
+  playerTwoName = "Player Two"
+) {
   return {
     name: name,
+    id: id,
   };
 }
 
-function createGame() {
+function createGame(
+  playerOneName = "Player One",
+  playerTwoName = "Player Two"
+) {
   const gameInstance = {
     board: [
       [null, null, null],
       [null, null, null],
       [null, null, null],
     ],
-    players: [],
-    addPlayer: function (player) {
-      player.makeMove = function (row, col) {
-        if (this.board[row][col] === null) {
-          this.board[row][col] = player.name;
-        }
-      }.bind(gameInstance);
-      this.players.push(player);
+    players: [
+      {
+        name: playerOneName,
+        id: 1,
+      },
+      {
+        name: playerTwoName,
+        id: 2,
+      },
+    ],
+    makeMove: function (player, row, column) {
+      if (this.board[row][column] === null) {
+        this.board[row][column] = player.id;
+      }
     },
+    // addPlayer: function (player) {
+    //   player.makeMove = function (row, col) {
+    //     if (this.board[row][col] === null) {
+    //       this.board[row][col] = player.name;
+    //     }
+    //   }.bind(gameInstance);
+    //   this.players.push(player);
+    // },
   };
   return gameInstance;
 }
 
 const game = createGame();
-
-const jonny = createPlayer("jonny");
-const kevin = createPlayer("kevin");
-
-console.log(game.board);
-
-console.log(game.players);
-
-game.addPlayer(jonny);
-game.addPlayer(kevin);
-kevin.makeMove(1, 1);
-jonny.makeMove(0, 1);
-kevin.makeMove(0, 2);
-jonny.makeMove(0, 0);
 
 console.log(game);
 
@@ -52,9 +59,20 @@ function GameController() {
     console.log(activePlayer);
   };
 
-  const playRound = () => {
+  const getActivePlayer = () => activePlayer;
+
+  const playRound = (row, column) => {
     // function to play round
+
+    game.makeMove(getActivePlayer(), row, column);
+
+    switchPlayer();
   };
 
-  return { switchPlayer, playRound };
+  return { playRound, getActivePlayer };
 }
+
+const controlGame = GameController();
+
+controlGame.playRound(1, 2);
+controlGame.playRound(0, 1);
