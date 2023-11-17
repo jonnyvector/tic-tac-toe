@@ -12,13 +12,13 @@ function createGame() {
       [null, null, null],
     ],
     players: [],
-    addPlayer: function (p) {
-      p.makeMove = function (row, col) {
+    addPlayer: function (player) {
+      player.makeMove = function (row, col) {
         if (this.board[row][col] === null) {
-          this.board[row][col] = p.name;
+          this.board[row][col] = player.name;
         }
       }.bind(gameInstance);
-      this.players.push(p);
+      this.players.push(player);
     },
   };
   return gameInstance;
@@ -53,7 +53,7 @@ function GameController() {
   };
 
   const playRound = () => {
-    // funtion to play round
+    // function to play round
   };
 
   return { switchPlayer, playRound };
