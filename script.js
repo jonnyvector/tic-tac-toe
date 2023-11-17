@@ -1,5 +1,5 @@
 const gameboard = document.querySelectorAll("[data-cell]");
-console.log(gameboard);
+const playerStatus = document.querySelector(".player-status");
 
 function createGame(
   playerOneName = "Player One",
@@ -49,13 +49,18 @@ function GameController() {
 
   const playRound = (row, column) => {
     // function to play round
-    console.log(
-      `${getActivePlayer().name} moved to row ${row}, column ${column}`
-    );
+
+    // make a move
     game.makeMove(getActivePlayer(), row, column);
 
-    // check for winning conditions
+    // render player's turn on screen
+    if (getActivePlayer().name === "Player One") {
+      playerStatus.textContent = "Player Two's Turn!";
+    } else {
+      playerStatus.textContent = "Player One's Turn!";
+    }
 
+    // check for winning conditions
     for (const row of game.board) {
       // check for row win
       if (row.every((cell) => cell === getActivePlayer().id)) {
@@ -107,7 +112,7 @@ function GameController() {
 const controlGame = GameController();
 
 for (const cell of gameboard) {
-  cell.addEventListener("click", function (e) {
+  cell.addEventListener("click", function () {
     if (cell.textContent === "") {
       var rowNumber = cell.getAttribute("data-row");
       var colNumber = cell.getAttribute("data-col");
