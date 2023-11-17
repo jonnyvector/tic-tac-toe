@@ -39,6 +39,7 @@ console.log(game);
 function GameController() {
   let activePlayer = game.players[0];
   let hasWinner = false;
+  let gameOver = false;
 
   const switchPlayer = () => {
     activePlayer =
@@ -48,12 +49,12 @@ function GameController() {
   const getActivePlayer = () => activePlayer;
 
   const playRound = (row, column) => {
-    // function to play round
-
     // make a move
+
     game.makeMove(getActivePlayer(), row, column);
 
     // render player's turn on screen
+
     if (getActivePlayer().name === "Player One") {
       playerStatus.textContent = "Player Two's Turn!";
     } else {
@@ -100,27 +101,43 @@ function GameController() {
     }
 
     if (hasWinner) {
-      console.log(`${getActivePlayer().name} wins!`);
+      gameOver = true;
+      playerStatus.textContent = `${getActivePlayer().name} has won!`;
+      removeClickListeners();
     }
 
     switchPlayer();
   };
 
-  return { playRound, getActivePlayer };
+  return { playRound, getActivePlayer, gameOver };
 }
 
 const controlGame = GameController();
 
-for (const cell of gameboard) {
-  cell.addEventListener("click", function () {
-    if (cell.textContent === "") {
-      var rowNumber = cell.getAttribute("data-row");
-      var colNumber = cell.getAttribute("data-col");
+console.log(controlGame.gameOver);
 
-      controlGame.playRound(rowNumber, colNumber);
+function removeClickListeners() {
+  for (const cell of gameboard) {
+    cell.removeEventListener("click", cellClickHandler);
+  }
+}
 
-      cell.textContent =
-        controlGame.getActivePlayer().name === "Player One" ? "O" : "X";
+function cellClickHandler() {
+  if (!controlGame.gameOver) {
+    if (!controlGame.gameOver) {
+      if (this.textContent === "") {
+        var rowNumber = this.getAttribute("data-row");
+        var colNumber = this.getAttribute("data-col");
+
+        controlGame.playRound(rowNumber, colNumber);
+
+        this.textContent =
+          controlGame.getActivePlayer().name === "Player One" ? "O" : "X";
+      }
     }
-  });
+  }
+}
+
+for (const cell of gameboard) {
+  cell.addEventListener("click", cellClickHandler);
 }
