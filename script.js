@@ -19,7 +19,9 @@ function createGame(
       },
     ],
     makeMove: function (player, row, column) {
-      if (this.board[row][column] === null) {
+      if (this.board[row][column] !== null) {
+        console.log("This space is not empty");
+      } else if (this.board[row][column] === null) {
         this.board[row][column] = player.id;
       }
     },
@@ -33,6 +35,7 @@ console.log(game);
 
 function GameController() {
   let activePlayer = game.players[0];
+  let hasWinner = false;
 
   const switchPlayer = () => {
     activePlayer =
@@ -50,7 +53,6 @@ function GameController() {
 
     // check for winning conditions
 
-    let hasWinner = false;
     for (const row of game.board) {
       // check for row win
       if (row.every((cell) => cell === getActivePlayer().id)) {
@@ -67,7 +69,6 @@ function GameController() {
         hasWinner = true;
       }
     }
-
     // check for diagonal win:
     // [0,0][1,1][2,2]
     // [0,2][1,1][2,0]
@@ -90,7 +91,9 @@ function GameController() {
       }
     }
 
-    console.log(hasWinner);
+    if (hasWinner) {
+      console.log(`${getActivePlayer().name} wins!`);
+    }
 
     switchPlayer();
   };
@@ -100,8 +103,5 @@ function GameController() {
 
 const controlGame = GameController();
 
-controlGame.playRound(0, 0);
-controlGame.playRound(1, 0);
-controlGame.playRound(1, 1);
 controlGame.playRound(1, 2);
-controlGame.playRound(2, 2);
+controlGame.playRound(1, 2);
