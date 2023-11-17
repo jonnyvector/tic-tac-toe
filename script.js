@@ -1,3 +1,6 @@
+const gameboard = document.querySelectorAll("[data-cell]");
+console.log(gameboard);
+
 function createGame(
   playerOneName = "Player One",
   playerTwoName = "Player Two"
@@ -103,5 +106,10 @@ function GameController() {
 
 const controlGame = GameController();
 
-controlGame.playRound(1, 2);
-controlGame.playRound(1, 2);
+function handleClick(element) {
+  // Get value of row and column
+  var rowNumber = element.getAttribute("data-row");
+  var colNumber = element.getAttribute("data-col");
+
+  controlGame.playRound(rowNumber, colNumber);
+}
