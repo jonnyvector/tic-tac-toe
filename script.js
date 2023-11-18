@@ -103,9 +103,35 @@ function GameController() {
 
     if (hasWinner) {
       gameOver = true;
-      playerStatus.textContent = `${getActivePlayer().name} has won!`;
+      playerStatus.textContent = `${getActivePlayer().name} Wins!`;
       removeClickListeners();
     }
+
+    // Restart Game
+
+    restartGame.addEventListener("click", function () {
+      activePlayer = game.players[0];
+      hasWinner = false;
+      gameOver = false;
+
+      playerStatus.textContent = `${
+        controlGame.getActivePlayer().name
+      }'s turn!`;
+
+      for (let i = 0; i < game.board.length; i++) {
+        for (let j = 0; j < game.board[i].length; j++) {
+          game.board[i][j] = null;
+        }
+      }
+      for (const cell of gameboard) {
+        cell.textContent = "";
+      }
+      for (const cell of gameboard) {
+        cell.addEventListener("click", cellClickHandler);
+      }
+
+      console.log(game.board);
+    });
 
     switchPlayer();
   };
@@ -115,11 +141,7 @@ function GameController() {
 
 const controlGame = GameController();
 
-function removeClickListeners() {
-  for (const cell of gameboard) {
-    cell.removeEventListener("click", cellClickHandler);
-  }
-}
+// Add click handler
 
 function cellClickHandler() {
   if (!controlGame.gameOver) {
@@ -137,24 +159,10 @@ for (const cell of gameboard) {
   cell.addEventListener("click", cellClickHandler);
 }
 
-restartGame.addEventListener("click", function () {
-  activePlayer = game.players[0];
-  hasWinner = false;
-  gameOver = false;
+//  Remove click handlers
 
-  playerStatus.textContent = `${controlGame.getActivePlayer().name}'s turn!`;
-
-  for (let i = 0; i < game.board.length; i++) {
-    for (let j = 0; j < game.board[i].length; j++) {
-      game.board[i][j] = null;
-    }
-  }
+function removeClickListeners() {
   for (const cell of gameboard) {
-    cell.textContent = "";
+    cell.removeEventListener("click", cellClickHandler);
   }
-  for (const cell of gameboard) {
-    cell.addEventListener("click", cellClickHandler);
-  }
-
-  console.log(game.board);
-});
+}
