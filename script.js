@@ -1,5 +1,6 @@
 const gameboard = document.querySelectorAll("[data-cell]");
 const playerStatus = document.querySelector(".player-status");
+const restartGame = document.querySelector(".restart-game");
 
 function createGame(
   playerOneName = "Player One",
@@ -109,12 +110,10 @@ function GameController() {
     switchPlayer();
   };
 
-  return { playRound, getActivePlayer, gameOver };
+  return { playRound, getActivePlayer, gameOver, restartGame };
 }
 
 const controlGame = GameController();
-
-console.log(controlGame.gameOver);
 
 function removeClickListeners() {
   for (const cell of gameboard) {
@@ -124,16 +123,12 @@ function removeClickListeners() {
 
 function cellClickHandler() {
   if (!controlGame.gameOver) {
-    if (!controlGame.gameOver) {
-      if (this.textContent === "") {
-        var rowNumber = this.getAttribute("data-row");
-        var colNumber = this.getAttribute("data-col");
-
-        controlGame.playRound(rowNumber, colNumber);
-
-        this.textContent =
-          controlGame.getActivePlayer().name === "Player One" ? "O" : "X";
-      }
+    if (this.textContent === "") {
+      var rowNumber = this.getAttribute("data-row");
+      var colNumber = this.getAttribute("data-col");
+      controlGame.playRound(rowNumber, colNumber);
+      this.textContent =
+        controlGame.getActivePlayer().name === "Player One" ? "O" : "X";
     }
   }
 }
@@ -141,3 +136,25 @@ function cellClickHandler() {
 for (const cell of gameboard) {
   cell.addEventListener("click", cellClickHandler);
 }
+
+restartGame.addEventListener("click", function () {
+  activePlayer = game.players[0];
+  hasWinner = false;
+  gameOver = false;
+
+  playerStatus.textContent = `${controlGame.getActivePlayer().name}'s turn!`;
+
+  for (let i = 0; i < game.board.length; i++) {
+    for (let j = 0; j < game.board[i].length; j++) {
+      game.board[i][j] = null;
+    }
+  }
+  for (const cell of gameboard) {
+    cell.textContent = "";
+  }
+  for (const cell of gameboard) {
+    cell.addEventListener("click", cellClickHandler);
+  }
+
+  console.log(game.board);
+});
