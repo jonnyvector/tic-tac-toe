@@ -35,7 +35,7 @@ function createGame(
 
 const game = createGame();
 
-console.log(game);
+// console.log(game);
 
 function GameController() {
   let activePlayer = game.players[0];
@@ -128,7 +128,7 @@ function GameController() {
         cell.addEventListener("click", cellClickHandler);
       }
 
-      console.log(game.board);
+      // console.log(game.board);
     });
 
     switchPlayer();
