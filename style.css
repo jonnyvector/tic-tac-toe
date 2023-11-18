@@ -47,6 +47,12 @@ h3 {
   background-color: #40446c;
 }
 
+@media (hover: none) {
+  .game-cell:hover {
+    background-color: transparent; /* or any other style you want for touch devices */
+  }
+}
+
 .top-row {
   border-bottom: 2px solid #e74545;
 }
