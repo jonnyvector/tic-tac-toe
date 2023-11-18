@@ -51,11 +51,9 @@ function GameController() {
 
   const playRound = (row, column) => {
     // make a move
-
     game.makeMove(getActivePlayer(), row, column);
 
     // render player's turn on screen
-
     if (getActivePlayer().name === "Player One") {
       playerStatus.textContent = "Player Two's Turn!";
     } else {
@@ -101,14 +99,14 @@ function GameController() {
       }
     }
 
+    //check for winner
     if (hasWinner) {
       gameOver = true;
       playerStatus.textContent = `${getActivePlayer().name} Wins!`;
       removeClickListeners();
     }
 
-    // Restart Game
-
+    //restart game
     restartGame.addEventListener("click", function () {
       activePlayer = game.players[0];
       hasWinner = false;
@@ -141,8 +139,7 @@ function GameController() {
 
 const controlGame = GameController();
 
-// Add click handler
-
+//add click handler
 function cellClickHandler() {
   if (!controlGame.gameOver) {
     if (this.textContent === "") {
@@ -159,8 +156,7 @@ for (const cell of gameboard) {
   cell.addEventListener("click", cellClickHandler);
 }
 
-//  Remove click handlers
-
+//  remove click handlers
 function removeClickListeners() {
   for (const cell of gameboard) {
     cell.removeEventListener("click", cellClickHandler);
